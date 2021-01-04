@@ -1,15 +1,47 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import Login from '@/components/Login'
+import Base from '@/components/Base'
+import Index from '@/components/Index'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+      name: 'Base',
+      component: Base,
+      children: [
+        {
+          path: '/',
+          name: 'Index',
+          component: Index
+        },
+        {
+          path: 'index',
+          name: 'Index',
+          component: Index
+        },
+        {
+          path: 'login',
+          name: 'Login',
+          component: Login
+        },
+        {
+          path: 'register',
+          name: 'Register',
+          component: Register
+        }
+      ]
+    },
+    // {
+    //   path: '/login',
+    //   name: 'Login',
+    //   component: Login
+    // }
   ]
 })
