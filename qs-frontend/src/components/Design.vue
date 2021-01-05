@@ -313,10 +313,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
- .Design{
-
-  }
+<style scoped>
   .Design .dialog{
     text-align: left;
   }
