@@ -1,6 +1,3 @@
-<!--
-边框背景
--->
 <template>
   <div class="code-div">
     <div class="code-div-head">
@@ -29,7 +26,7 @@
 .code-div-head {
   width: 100%;
   height: 40px;
-  background-color: #162f49;
+  background-color: #2e3e4e;
   line-height: 40px;
   text-align: left;
   padding-left: 15px;
@@ -39,7 +36,7 @@
   width: 12px;
   height: 12px;
   margin: 0 3px;
-  background-color: #b2c9d4;
+  background-color: #9db1bb;
   border-radius: 50%;
   display: inline-block;
 }
