@@ -5,8 +5,12 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import md5 from "./md5";
+import VueClipboard from "vue-clipboard2";
 
 Vue.use(ElementUI)
+Vue.use(VueClipboard);
+Vue.use(md5);
 
 Vue.config.productionTip = false
 
@@ -16,5 +20,30 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
-  render: h=>h(App)
+  render: h => h(App)
 })
+
+var _hmt = _hmt || [];
+window._hmt = _hmt;
+(function () {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?9354205e2c5c77a15e07019792243422";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+
+router.afterEach((to, from, next) => {
+  setTimeout(() => {
+    var _hmt = _hmt || [];
+    (function () {
+      //每次执行前，先移除上次插入的代码
+      document.getElementById("baidu_tj") &&
+        document.getElementById("baidu_tj").remove();
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9354205e2c5c77a15e07019792243422";
+      hm.id = "baidu_tj";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  }, 0);
+});
