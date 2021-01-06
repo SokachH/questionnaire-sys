@@ -18,7 +18,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .out .el-input__inner {
   background-color: #fafafa;
   border: none;

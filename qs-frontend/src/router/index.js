@@ -10,6 +10,7 @@ import Home from '@/components/Home'
 import Display from '@/components/Display'
 import TempDisplay from '@/components/TempDisplay'
 import ThankYou from '@/components/ThankYou'
+import testLogin from '@/components/testLogin'
 
 Vue.use(Router)
 
@@ -49,19 +50,24 @@ export default new Router({
       ]
     },
     {
-      path: 'display/:id',
+      path: '/display/:id',
       name: 'Display',
       component: Display
     },
     {
-      path: 'tempdisplay/:id',
+      path: '/tempdisplay/:id',
       name: 'TempDisplay',
       component: TempDisplay
     },
     {
-      path: 'thankyou',
+      path: '/thankyou',
       name: 'ThankYou',
       component: ThankYou
+    },
+    {
+      path: '/test',
+      name: 'testLogin',
+      component: testLogin
     }
   ]
 })
