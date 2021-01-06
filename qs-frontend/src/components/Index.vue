@@ -11,7 +11,7 @@
         让您沉浸于问卷创造中，VDSurvey助您匠心独问</span
       >
       <div>
-        <el-button type="primary">立即体验</el-button>
+        <el-button type="primary" @click="handleEnjoy">立即体验</el-button>
       </div>
     </div>
     <code-div><img src="/static/images/demo1.png" class="demoImg" /></code-div>
@@ -78,6 +78,15 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    handleEnjoy() {
+      if (sessionStorage.getItem("username") != null) {
+        this.$router.push({ path: "/login" });
+      } else {
+        this.$router.push({ path: "/home" });
+      }
+    },
   },
 };
 </script>
