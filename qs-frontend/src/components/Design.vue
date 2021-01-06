@@ -8,7 +8,7 @@
       <div class="top" v-if="desc!=''">
         {{desc}}
       </div>
-    <el-card class="box-card" v-for="(item,index) in detail" style="margin: 10px;">
+    <el-card class="box-card" v-for="(item,index) in detail" style="margin: 10px;" :key="index">
         <div slot="header" class="clearfix">
           <div class="questionTitle">
             <!--显示必填标识-->
@@ -26,13 +26,13 @@
         </div>
 
         <!--单选题展示-->
-        <div class="text item" v-if="item.type=='radio'" v-for="(option,index) in item.options">
+        <div class="text item" v-if="item.type=='radio'" v-for="(option,index) in item.options" :key="index">
           <el-radio v-model="item.radioValue" :label="index" style="margin: 5px;">{{ option.title }}</el-radio>
         </div>
 
         <!--多选题展示-->
         <el-checkbox-group v-if="item.type=='checkbox'" v-model="item.checkboxValue">
-          <div class="text item"  v-for="(option,index) in item.options">
+          <div class="text item"  v-for="(option,index) in item.options" :key="index">
             <el-checkbox :label="index" style="margin: 5px;">{{ option.title }}</el-checkbox>
           </div>
         </el-checkbox-group>
@@ -73,7 +73,7 @@
         </el-form-item>
 
         <template v-if="willAddQuestion.type=='radio'||willAddQuestion.type=='checkbox'">
-          <el-form-item :label="'选项'+(index+1)" v-for="(item,index) in willAddQuestion.options" >
+          <el-form-item :label="'选项'+(index+1)" v-for="(item,index) in willAddQuestion.options" :key="item.label">
             <el-row>
               <el-col :span="16">
                 <el-input  v-model="item.title" placeholder="请输入选项名" style="width: 90%;"></el-input>

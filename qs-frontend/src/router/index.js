@@ -5,7 +5,11 @@ import Login from '@/components/Login'
 import Base from '@/components/Base'
 import Index from '@/components/Index'
 import Register from '@/components/Register'
-import HomeH from '@/components/HomeH'
+// import HomeH from '@/components/HomeH'
+import Home from '@/components/Home'
+import Display from '@/components/Display'
+import TempDisplay from '@/components/TempDisplay'
+import ThankYou from '@/components/ThankYou'
 
 Vue.use(Router)
 
@@ -39,15 +43,25 @@ export default new Router({
         },
         {
           path: 'home',
-          name: 'HomeH',
-          component: HomeH
+          name: 'Home',
+          component: Home
         }
       ]
     },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: Login
-    // }
+    {
+      path: 'display/:id',
+      name: 'Display',
+      component: Display
+    },
+    {
+      path: 'tempdisplay/:id',
+      name: 'TempDisplay',
+      component: TempDisplay
+    },
+    {
+      path: 'thankyou',
+      name: 'ThankYou',
+      component: ThankYou
+    }
   ]
 })

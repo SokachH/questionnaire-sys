@@ -104,7 +104,7 @@ export default {
             password:this.$md5(this.loginForm.password),  //密码md5加密
           })
             .then(data=>{
-              console.log(data, "hihi");
+              console.log(data);
               if (data.code==0) {  //登录成功，并提示
                 this.$notify({
                   type: 'success',
