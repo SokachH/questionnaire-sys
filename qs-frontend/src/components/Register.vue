@@ -16,15 +16,17 @@
           label-width="100px"
           class="demo-registeForm"
         >
-          <el-form-item prop="username" label="用户名">
+          <el-form-item prop="username" label="用户名" class="regist_form">
             <el-input
+              class="regist_input"
               @keyup.enter.native="Register('registerForm')"
               v-model="registerForm.username"
               placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="pass" class="regist_form">
             <el-input
+              class="regist_input"
               @keyup.enter.native="Register('registerForm')"
               v-model="registerForm.pass"
               autocomplete="off"
@@ -33,8 +35,9 @@
             >
             </el-input>
           </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
+          <el-form-item label="确认密码" prop="checkPass" class="regist_form">
             <el-input
+              class="regist_input"
               @keyup.enter.native="Register('registerForm')"
               v-model="registerForm.checkPass"
               autocomplete="off"
@@ -43,10 +46,11 @@
             >
             </el-input>
           </el-form-item>
-          <el-form-item label="验证码" prop="code">
+          <el-form-item label="验证码" prop="code" class="regist_form">
             <el-row :span="24">
               <el-col :span="12">
                 <el-input
+                  class="regist_input"
                   @keyup.enter.native="Register('registerForm')"
                   v-model="registerForm.code"
                   autocomplete="off"
@@ -364,7 +368,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .register {
   position: absolute;
   width: 100%;
@@ -397,7 +401,7 @@ export default {
     rgb(0, 0, 0) 100%
   );
 }
-.el-form-item__label {
+.regist_form >>> .el-form-item__label {
   color: #ffffff;
 }
 .el-form {
@@ -428,5 +432,9 @@ export default {
 }
 .login_code {
   height: 20px;
+}
+.regist_input >>> .el-input__inner {
+  background-color: transparent;
+  color: cornsilk;
 }
 </style>

@@ -9,11 +9,11 @@
         <el-form ref="loginForm" :rules="rules" :model="loginForm">
           <el-form-item prop="username">
             <el-input
+              class="login_input"
               @keyup.enter.native="login('loginForm')"
               icon="el-icon-search"
               placeholder="请输入用户名"
               v-model="loginForm.username"
-              class="input_style"
             >
               <i class="el-icon-user" slot="prefix"> </i>
             </el-input>
@@ -22,9 +22,9 @@
             <el-input
               @keyup.enter.native="login('loginForm')"
               placeholder="请输入密码"
-              class="input_style"
               v-model="loginForm.password"
               show-password
+              class="login_input"
             >
               <i class="el-icon-key" slot="prefix"> </i>
             </el-input>
@@ -33,6 +33,7 @@
             <el-row :span="24">
               <el-col :span="13">
                 <el-input
+                  class="login_input"
                   v-model="loginForm.code"
                   auto-complete="off"
                   placeholder="请输入验证码"
@@ -327,7 +328,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .login {
   position: absolute;
   width: 100%;
@@ -385,7 +386,9 @@ export default {
   width: 100%;
   overflow: hidden;
 }
-.el-input__inner {
+/* .login_input .el-input__inner { */
+/* .login_input>>>el-input { */
+.login_input >>> .el-input__inner {
   background-color: transparent;
   color: cornsilk;
 }
