@@ -306,7 +306,7 @@
         if(this.nowSelect.status==0){//问卷未发布
           this.$message({
             type: 'error',
-            message: '请先发布问卷才能分享！'
+            message: '问卷发布后才可分享！'
           });
           return;
         }
@@ -323,7 +323,7 @@
         console.log(e);
         this.$message({
           type: 'success',
-          message: '已复制链接到剪切板'
+          message: '分享链接复制成功'
         });
       },
       //复制分享链接失败
@@ -331,7 +331,7 @@
         console.log(e);
         this.$message({
           type: 'error',
-          message: '复制失败'
+          message: '分享链接复制失败'
         });
       },
       //打开分享链接
