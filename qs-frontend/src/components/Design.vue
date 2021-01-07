@@ -335,7 +335,7 @@
     color: #606266;
     margin-left: 20px;
     padding: 0 10px 10px 10px;
-    border-bottom: 3px solid #409EFF;
+    border-bottom: 3px solid #2e3e4e;
     font-size: 15px;
     line-height: 22px;
     text-align: left;
