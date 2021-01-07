@@ -8,7 +8,6 @@
       <i class="el-icon-circle-check" style="color: green;font-size: 50px"></i><br>
       您的回答已提交，感谢您的参与！<br><br>
       <el-divider></el-divider>
-      <el-link type="info" href="/index">问卷喵&nbsp;提供技术支持</el-link>
     </el-card>
   </div>
 </template>

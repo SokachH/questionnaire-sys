@@ -57,6 +57,9 @@
               class="submitBtn"
               >登 录</el-button
             >
+            <el-button @click="toResetPass" class="submitBtn"
+              >忘记密码?</el-button
+            >
           </el-form-item>
         </el-form>
       </el-row>
@@ -152,6 +155,9 @@ export default {
     };
   },
   methods: {
+    toResetPass() {
+      this.$router.push({ path: "/resetpass" });
+    },
     //重复动画
     drawFrame() {
       let animation = requestAnimationFrame(this.drawFrame);
@@ -394,8 +400,9 @@ export default {
 }
 .submitBtn {
   text-align: center;
-  width: 150px;
-  margin-top: 10px;
+  width: 100px;
+  margin: 10px;
+  /* margin-top: 10px; */
 }
 .login_code {
   height: 20px;

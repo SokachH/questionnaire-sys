@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Base from '@/components/Base'
 import Index from '@/components/Index'
@@ -10,7 +10,8 @@ import Home from '@/components/Home'
 import Display from '@/components/Display'
 import TempDisplay from '@/components/TempDisplay'
 import ThankYou from '@/components/ThankYou'
-import testLogin from '@/components/testLogin'
+// import testLogin from '@/components/testLogin'
+import ResetPass from '@/components/ResetPass'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
           path: 'home',
           name: 'Home',
           component: Home
+        },
+        {
+          path: 'resetpass',
+          name: 'ResetPass',
+          component: ResetPass
         }
       ]
     },
@@ -64,10 +70,5 @@ export default new Router({
       name: 'ThankYou',
       component: ThankYou
     },
-    {
-      path: '/test',
-      name: 'testLogin',
-      component: testLogin
-    }
   ]
 })
