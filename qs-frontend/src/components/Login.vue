@@ -251,7 +251,6 @@ export default {
     },
     //登录方法
     login(formName) {
-      // 表单验证通过，可进行操作
       if (
         this.loginForm.code.toLowerCase() !== this.identifyCode.toLowerCase()
       ) {
