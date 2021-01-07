@@ -5,7 +5,7 @@
         <div class="logo" @click="toIndex">
           <img src="/static/images/logo.png" class="logoImg" />
           <span class="title">VDSurvey</span>
-          <span class="subtitle">——免费的在线问卷调查系统</span>
+          <span class="subtitle">——在线问卷调查系统</span>
         </div>
         <div class="lrcontainer">
           <!-- 未登录时显示-->
@@ -138,7 +138,7 @@ export default {
   /* background-color: #FFFFCC; */
 }
 .logoImg {
-  width: 30px;
+  width: 50px;
   vertical-align: middle;
 }
 .logo {
