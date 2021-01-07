@@ -26,15 +26,34 @@
               v-model="loginForm.password"
               show-password
             >
-              <i class="el-icon-lock" slot="prefix"> </i>
+              <i class="el-icon-key" slot="prefix"> </i>
             </el-input>
           </el-form-item>
-          <!-- 登录按钮 -->
+          <el-form-item>
+            <el-row :span="24">
+              <el-col :span="13">
+                <el-input
+                  v-model="loginForm.code"
+                  auto-complete="off"
+                  placeholder="请输入验证码"
+                  size=""
+                  @keyup.enter.native="login('loginForm')"
+                >
+                  <i class="el-icon-lock" slot="prefix"> </i>
+                </el-input>
+              </el-col>
+              <el-col :span="11">
+                <div class="login_code" @click="refreshCode">
+                  <s-identify :identifyCode="identifyCode"></s-identify>
+                </div>
+              </el-col>
+            </el-row>
+          </el-form-item>
           <el-form-item>
             <el-button
               type="primary"
               @click="login('loginForm')"
-              class="submitBtn"              
+              class="submitBtn"
               >登 录</el-button
             >
           </el-form-item>
@@ -53,8 +72,12 @@
 <script>
 import { designOpera } from "./api";
 import { Loading } from "element-ui";
+import SIdentify from "@/components/SIdentify";
 export default {
   name: "Login",
+  components: {
+    SIdentify,
+  },
   data() {
     return {
       canvas: null,
@@ -108,7 +131,10 @@ export default {
       loginForm: {
         username: "", //用户名
         password: "", //密码
+        code: "", // 验证码
       },
+      identifyCodes: "1234567890abcdefjhijklinopqrsduvwxyz",
+      identifyCode: "",
       rules: {
         //表单验证（用户名验证规则）
         username: [
@@ -120,12 +146,9 @@ export default {
           { required: true, message: "密码不能为空", trigger: "blur" },
           { min: 6, message: "密码长度最少为6位", trigger: "blur" },
         ],
+        code: [{ required: true, message: "验证码不能为空", trigger: "blur" }],
       },
     };
-  },
-  //页面初始化
-  mounted() {
-    this.logincheck();
   },
   methods: {
     //重复动画
@@ -229,6 +252,13 @@ export default {
     //登录方法
     login(formName) {
       // 表单验证通过，可进行操作
+      if (
+        this.loginForm.code.toLowerCase() !== this.identifyCode.toLowerCase()
+      ) {
+        this.$message.error("请填写正确的验证码");
+        this.refreshCode();
+        return;
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           designOpera({
@@ -270,12 +300,29 @@ export default {
         }
       });
     },
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    refreshCode() {
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, 4);
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)
+        ];
+      }
+    },
   },
   mounted() {
     this.canvas = document.getElementById("myCanvas");
     this.context = this.canvas.getContext("2d");
     this.createStar(true);
     this.drawFrame();
+    this.logincheck();
+    this.identifyCode = "";
+    this.makeCode(this.identifyCodes, 4);
   },
 };
 </script>
@@ -301,7 +348,7 @@ export default {
   left: 48%;
   top: 40%;
   width: 320px;
-  height: 250px;
+  height: 330px;
   margin: -190px 0 0 -190px;
   padding: 40px;
   border-radius: 5px;
@@ -309,10 +356,10 @@ export default {
   box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
   opacity: 1;
   background: linear-gradient(
-      230deg,
-      rgba(53, 57, 74, 0) 0%,
-      rgb(0, 0, 0) 100%
-    );
+    230deg,
+    rgba(53, 57, 74, 0) 0%,
+    rgb(0, 0, 0) 100%
+  );
 }
 .el-form {
   padding-top: 5%;
@@ -341,10 +388,14 @@ export default {
 }
 .el-input__inner {
   background-color: transparent;
+  color: cornsilk;
 }
 .submitBtn {
-  text-align: center; 
-  width: 150px; 
-  margin-top:10px;
+  text-align: center;
+  width: 150px;
+  margin-top: 10px;
+}
+.login_code {
+  height: 20px;
 }
 </style>
