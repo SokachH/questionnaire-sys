@@ -4,16 +4,16 @@
       <canvas id="myCanvas" :width="width" :height="height"> </canvas>
     </div>
     <div class="main_login">
-      <div class="title">登录</div>
+      <div class="title">管理员登录</div>
       <el-row type="flex" justify="center">
         <el-form ref="loginForm" :rules="rules" :model="loginForm">
-          <el-form-item prop="username">
+          <el-form-item prop="adminname">
             <el-input
               class="login_input"
               @keyup.enter.native="login('loginForm')"
               icon="el-icon-search"
               placeholder="请输入用户名"
-              v-model="loginForm.username"
+              v-model="loginForm.adminname"
             >
               <i class="el-icon-user" slot="prefix"> </i>
             </el-input>
@@ -133,7 +133,7 @@ export default {
       height: window.innerHeight,
       // 表单数据
       loginForm: {
-        username: "", //用户名
+        adminname: "", //用户名
         password: "", //密码
         code: "", // 验证码
       },
@@ -141,7 +141,7 @@ export default {
       identifyCode: "",
       rules: {
         //表单验证（用户名验证规则）
-        username: [
+        adminname: [
           { required: true, message: "账号不能为空", trigger: "blur" },
           { max: 20, message: "账号长度最长20位", trigger: "blur" },
         ],
@@ -243,16 +243,16 @@ export default {
     //检查登录是否过期
     logincheck() {
       designOpera({
-        opera_type: "logincheck",
+        opera_type: "admincheck",
       }).then((data) => {
         console.log(data);
         if (data.code == 404) {
-          this.$router.push({ path: "/login" });
+          this.$router.push({ path: "/adminlogin" });
         }
-        if (data.data != null) {
+        if (data.data != null && data.data != "undefined") {
           console.log(data);
-          sessionStorage.setItem("username", data.data.user); //将后端传的username存入session
-          this.$router.push({ path: "/home" });
+          sessionStorage.setItem("adminname", data.data.admin); //将后端传的username存入session
+          this.$router.push({ path: "/backhome" });
         }
       });
     },
@@ -268,20 +268,21 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           designOpera({
-            opera_type: "login", //操作类型
-            username: this.loginForm.username, //用户名
-            password: this.$md5(this.loginForm.password), //密码md5加密
+            opera_type: "adminlogin", //操作类型
+            adminname: this.loginForm.adminname, //用户名
+            // password: this.$md5(this.loginForm.password), //密码md5加密
+            password: this.loginForm.password
           }).then((data) => {
             console.log(data);
             if (data.code == 0) {
               //登录成功，并提示
               this.$notify({
                 type: "success",
-                message: "欢迎你," + this.loginForm.username + "!",
+                message: "欢迎你," + this.loginForm.adminname + "!",
                 duration: 3000,
               });
-              this.$router.push({ path: "/home" }); //跳转到用户主页面
-              sessionStorage.setItem("username", this.loginForm.username); //将用户名存入session中
+              this.$router.push({ path: "/backhome" }); //跳转到用户主页面
+              sessionStorage.setItem("adminname", this.loginForm.adminname); //将用户名存入session中
               this.$emit("state"); //将状态传到base页面
             } else {
               if (data.code == -5) {
@@ -289,12 +290,6 @@ export default {
                 this.$message({
                   type: "error",
                   message: "您还未注册账户，请注册",
-                  showClose: true,
-                });
-              } else if(data.code==-6) {
-                this.$message({
-                  type: "error",
-                  message: "您的账户已被禁用",
                   showClose: true,
                 });
               } else {

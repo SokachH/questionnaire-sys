@@ -326,6 +326,7 @@ export default {
   },
   data() {
     return {
+      username: "",
       defaultActive: 1, //当前激活菜单
       activeName: "wjsj", //标签页当前选择项
       wjList: [], //问卷列表
@@ -441,6 +442,8 @@ export default {
           });
           this.$router.push({ path: "/login" });
         } else {
+          this.username = sessionStorage.getItem("username");
+          console.log('homepage username', this.username)
           this.getWjList();
         }
       });
@@ -451,7 +454,7 @@ export default {
       if (this.nowSelect.status == 1) status = 0;
       designOpera({
         opera_type: "push_wj",
-        username: "test",
+        username: this.username,
         wjId: this.nowSelect.id,
         status: status,
       }).then((data) => {
@@ -476,7 +479,7 @@ export default {
         //问卷未发布
         this.$message({
           type: "error",
-          message: "请先发布问卷能分享！",
+          message: "请先发布问卷才能分享！",
         });
         return;
       }
@@ -541,7 +544,7 @@ export default {
       }
       designOpera({
         opera_type: "add_wj",
-        username: "test",
+        username: this.username,
         title: this.willAddWj.title,
         id: this.willAddWj.id,
         desc: this.willAddWj.desc,
@@ -566,9 +569,10 @@ export default {
     //获取问卷列表
     getWjList() {
       this.loading = true;
+      // console.log('getWjlist username', this.username)
       designOpera({
         opera_type: "get_wj_list",
-        username: "test",
+        username: this.username,
       }).then((data) => {
         console.log(data);
         this.wjList = data.data.detail;

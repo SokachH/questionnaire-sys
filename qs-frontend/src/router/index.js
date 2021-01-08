@@ -15,6 +15,10 @@ import ResetPass from '@/components/ResetPass'
 import Count from '@/components/Count'
 import Home_bak from '@/components/Home_bak'
 import activeInput from '@/components/activeInput'
+import backhome from '@/components/backhome'
+import Login_admin from '@/components/Login_admin'
+import Base_admin from '@/components/Base_admin'
+import temp_login from '@/components/temp_login'
 
 Vue.use(Router)
 
@@ -72,6 +76,38 @@ export default new Router({
       path: '/thankyou',
       name: 'ThankYou',
       component: ThankYou
+    },
+    {
+      path: '/admin',
+      name: 'BaseAdmin',
+      component: Base_admin,
+      children: [
+        // {
+        //   path: '/',
+        //   name: 'adminlogin',
+        //   component: Login_admin
+        // },
+        // {
+        //   path: '/',
+        //   name: 'adminlogin',
+        //   component: temp_login
+        // },
+        {
+          path: '/adminlogin',
+          name: 'adminlogin',
+          component: Login_admin
+        },
+        // {
+        //   path: 'adminlogin',
+        //   name: 'adminlogin',
+        //   component: Login_admin
+        // },
+        {
+          path: '/backhome',
+          name: 'backhome',
+          component: backhome
+        },
+      ]
     },
     {
       path: '/testc',

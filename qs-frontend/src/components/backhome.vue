@@ -5,9 +5,11 @@
       <el-col>
         <!--标签页-->
          <el-tabs type="border-card" v-model="activeName">
-            <el-tab-pane label="问卷管理" name="wjgl">           
+            <el-tab-pane label="问卷管理" name="wjsj">
+              <!--内容区域-->             
               <el-col :span="6">
                 <el-menu :default-active="defaultActive.toString()" v-loading="loading" class="menu">
+                  
                 <!--问卷列表-->
                 <el-menu-item v-for="(item,index) in wjList" :index="(index+1).toString()" @click="wjClick(item.id,index)">
                     <i class="el-icon-tickets"></i>
@@ -34,7 +36,9 @@
                 </el-col>
 
                 <el-col :span="18">
+                    <!--标签页-->
                     <el-tabs  v-model="activeName">
+                        <!--内容区域-->
                         <div class="content">
                             <div v-show="nowSelect.id==0||nowSelect.id==null">请先选择问卷</div>
                             <design ref="design" v-show="nowSelect.id!=0&&nowSelect.id!=null"></design>
@@ -44,13 +48,91 @@
               
             </el-tab-pane>
             <el-tab-pane label="用户管理" name="hdtj">
-              
+              <div class="search">
+                  <el-input v-model="mytext" placeholder="请输入要查找的用户名..." :disabled="false"/>
+                  <el-button type="primary" class="rightButton" @click="searchuser"><i>搜索</i></el-button>
+                </div>
+              <el-row :gutter="50">
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">用户名</div>
+                  <div class="grid-content bg-purple-light" v-for="(item,index) in UserList" style="margin: 1px;">
+                    {{item.username}}
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">邮箱</div>
+                  <div class="grid-content bg-purple-light" v-for="(item,index) in UserList" style="margin: 1px;">
+                    {{item.email}}
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">是否禁止该用户发布问卷(1为禁止)</div>
+                  <div class="grid-content bg-purple-light" v-for="(item,index) in UserList" style="margin: 1px;">
+                    {{item.status}}
+                    <i class="el-icon-remove" style="margin-left: 100px;" @click="BanWj(item.username,item.email,item.status)"></i>
+                  </div>
+                </el-col>
+              </el-row>
             </el-tab-pane>
           </el-tabs>
       </el-col>
     </el-row>
   </div>
 </template>
+<style>
+.search{
+            width: 30%;            
+            margin: 10px auto;
+            display: flex;
+     
+        }
+        .search input{
+            float: left;
+            flex: 4;
+            height: 30px;
+            outline: none;
+            border: 1px solid cadetblue;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+        .search button{
+            float: right;
+            flex: 1;
+            height: 30px;
+            background-color: cadetblue;
+            color: white;
+            border-style: none;
+            outline: none;
+        }
+        .search button i{
+            font-style: normal;
+        }
+        .search button:hover{
+            font-size: 16px;
+        }
+  .el-row {
+    margin-bottom: 20px;
+    
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #fbfffd;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+    line-height: 50px;
+    color:#003E3E;
+  }
+  </style>
 <script>
   import {designOpera} from './api'
   import Design from './Design.vue'
@@ -67,7 +149,7 @@
     data(){
       return{
         defaultActive:1,//当前激活菜单
-        activeName:'wjgl',//标签页当前选择项
+        activeName:'wjsj',//标签页当前选择项
         wjList:[],//问卷列表
         UserList:[],//用户列表
         loading:false,//是否显示加载中
@@ -129,11 +211,57 @@
           })
       },
       
+      //使用问卷
+      useTemp(item){
+        this.tempLoading=true;
+        designOpera({
+          opera_type:'use_temp',
+          wjId:item.tempid,
+        })
+          .then(data=>{
+            console.log(data);
+            this.tempLoading=false;
+            this.$message({
+              type: 'success',
+              message: '使用模板成功！',
+              showClose: true
+            });
+            this.tempDialog=false;
+            this.dialogShow=false;
+            this.getWjList();
 
+          })
+      },
+      //打开问卷库
+      openTemp(){
+        this.tempDialog=true;
+        this.changeTempPage(1);
+//        this.getTempWjList();
+      },
+      //改变模板库页码
+      changeTempPage(page){
+        this.tempLoading=true;
+        designOpera({
+          opera_type:'get_temp_wj_list',
+          page:page
+        })
+          .then(data=>{
+            console.log(data);
+            this.tempDataCount=data.count;
+            this.tempData=data.detail;
+            this.tempLoading=false;
+          })
+      },
+      //预览模板问卷
+      lookTempWj(item){
+        let url=window.location.origin+"/tempdisplay/"+item.tempid;//问卷链接
+        console.log(url);
+        window.open(url);
+      },
       //检查登录是否过期
       logincheck(){
           designOpera({
-          opera_type:'logincheck',
+          opera_type:'admincheck',
         })
         .then(data=>{
           console.log(data);
@@ -143,7 +271,7 @@
               message: '您还未登录，请登录',
               showClose: true
             });
-            this.$router.push({path:'/login'})
+            this.$router.push({path:'/adminlogin'})
           }
           else{
             this.getWjList();
@@ -151,12 +279,134 @@
           }
         })
       },
+      //发布问卷/暂停问卷
+      pushWj(){
+        let status=1;
+        if(this.nowSelect.status==1)
+            status=0;
+        designOpera({
+          opera_type:'push_wj',
+          username:'test',
+          wjId:this.nowSelect.id,
+          status:status
+        })
+          .then(data=>{
+            console.log(data);
+            if(data.code==0){
+              this.$message({
+                type: 'success',
+                message: status==1?'问卷发布成功！':'问卷暂停成功！'
+              });
+              this.getWjList();
+            }
+            else{
+              this.$message({
+                type: 'error',
+                message: data.msg
+              });
+            }
+          })
+      },
+      //分享问卷
+      shareWj(){
+        if(this.nowSelect.status==0){//问卷未发布
+          this.$message({
+            type: 'error',
+            message: '请先发布问卷能分享！'
+          });
+          return;
+        }
+        this.shareInfo.url=window.location.origin+"/display/"+this.nowSelect.id;//问卷链接
+        this.shareDialogShow=true;
+      },
+      //生成二维码
+      makeQrcode(){
+        var canvas=document.getElementById('canvas');
+        QRCode.toCanvas(canvas,this.shareInfo.url);
+      },
+      //复制分享链接成功
+      copySuccess(e){
+        console.log(e);
+        this.$message({
+          type: 'success',
+          message: '已复制链接到剪切板'
+        });
+      },
+      //复制分享链接失败
+      copyError(e){
+        console.log(e);
+        this.$message({
+          type: 'error',
+          message: '复制失败'
+        });
+      },
+      //打开分享链接
+      openShareUrl(){
+        window.open(this.shareInfo.url);
+      },
+      //预览问卷
+      previewWj(){
+        let url=window.location.origin+"/display/"+this.nowSelect.id;//问卷链接
+        console.log(url);
+        window.open(url);
+      },
+      //编辑问卷
+      editWj(){
+        this.dialogShow=true;
+        this.willAddWj=this.nowSelect;
+      },
+      //添加问卷按钮点击
+      addWjButtonClick(){
+        this.dialogShow=true;
+        this.willAddWj={
+          id:0,
+          title:'',
+          flag:0,
+          desc:'感谢您能抽时间参与本次问卷，您的意见和建议就是我们前行的动力！',
+        };
+      },
+      //添加问卷
+      addWj(){
+        if (this.willAddWj.title == ''){
+          this.$message({
+            type: 'error',
+            message: '标题不能为空'
+          });
+          return;
+        }
+        designOpera({
+          opera_type:'add_wj',
+          username:'test',
+          title:this.willAddWj.title,
+          id:this.willAddWj.id,
+          desc:this.willAddWj.desc,
+        })
+          .then(data=>{
+            console.log(data);
+            if(data.code==0){
+              this.$message({
+                type: 'success',
+                message: '保存成功!'
+              });
+              this.getWjList();
+            }
+            else{
+              this.$message({
+                type: 'error',
+                message: data.msg
+              });
+            }
+          });
+        this.dialogShow=false;
+        this.willAddWj.title='';
+      },
       //获取问卷列表
       getWjList(){
         this.loading=true;
         designOpera({
-          opera_type:'get_wj_list',
-          username: this.input,
+          // opera_type:'get_wj_list',
+          opera_type:'admin_get_wj',
+          // username: 'admin',
         })
           .then(data=>{
             console.log(data);
@@ -166,7 +416,31 @@
             this.lookDetail();
           })
       },
-     
+      searchuser(){
+        this.loading=true;
+        designOpera({
+          opera_type:'search_user',
+          username:this.mytext,
+        })
+          .then(data=>{
+            console.log(data);
+            this.UserList=data.data.detail;
+            this.loading=false;
+          })
+      },
+      //获取用户列表
+      getUsersList(){
+        this.loading=true;
+        designOpera({
+          opera_type:'get_users_list',
+          username:'admin',
+        })
+        .then(data=>{
+            console.log(data);
+            this.UserList=data.data.detail;
+            this.loading=false;
+          })
+      },
       //删除问卷
       BanWj(na,em,st){
         this.$confirm('确定禁止/允许'+na+'发布问卷?', '提示', {
@@ -210,7 +484,7 @@
         }).then(() => {
           this.loading=true;
           designOpera({
-          opera_type:'delete_wj',
+          opera_type:'admin_del_wj',
           adminname:'admin',
           id:this.nowSelect.id
         })
