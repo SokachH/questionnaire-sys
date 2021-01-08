@@ -95,9 +95,19 @@
               :disabled="nowSelect.id == 0 || nowSelect.id == null"
             ></el-button>
           </el-tooltip>
-          <!--<el-tooltip class="item" effect="dark" content="添加模板库" placement="bottom">-->
-          <!--<el-button icon="el-icon-upload" type="text"class="rightButton" @click="addTemp"></el-button>-->
-          <!--</el-tooltip>-->
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="添加模板库"
+            placement="bottom"
+          >
+            <el-button
+              icon="el-icon-upload"
+              type="text"
+              class="rightButton"
+              @click="addTemp"
+            ></el-button>
+          </el-tooltip>
         </div>
 
         <!--左侧导航栏-->
@@ -191,7 +201,7 @@
             </div>
           </el-tab-pane>
         </el-tabs>
-      </el-col> 
+      </el-col>
     </el-row>
 
     <!--添加问卷弹窗-->
@@ -376,11 +386,16 @@ export default {
   },
   methods: {
     addTemp() {
+      // console.log('addTemp:', this.nowSelect.id)
       designOpera({
         opera_type: "add_temp",
-        wjId: 107,
+        wjId: this.nowSelect.id,
       }).then((data) => {
         console.log(data);
+        this.$message({
+          type: "success",
+          message: "添加模板成功!",
+        });
       });
     },
     //使用问卷
@@ -443,7 +458,7 @@ export default {
           this.$router.push({ path: "/login" });
         } else {
           this.username = sessionStorage.getItem("username");
-          console.log('homepage username', this.username)
+          console.log("homepage username", this.username);
           this.getWjList();
         }
       });

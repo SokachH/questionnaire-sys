@@ -82,26 +82,16 @@ export default new Router({
       name: 'BaseAdmin',
       component: Base_admin,
       children: [
-        // {
-        //   path: '/',
-        //   name: 'adminlogin',
-        //   component: Login_admin
-        // },
-        // {
-        //   path: '/',
-        //   name: 'adminlogin',
-        //   component: temp_login
-        // },
+        {
+          path: '/',
+          name: 'adminlogin',
+          component: Login_admin
+        },
         {
           path: '/adminlogin',
           name: 'adminlogin',
           component: Login_admin
         },
-        // {
-        //   path: 'adminlogin',
-        //   name: 'adminlogin',
-        //   component: Login_admin
-        // },
         {
           path: '/backhome',
           name: 'backhome',
