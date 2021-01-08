@@ -24,6 +24,14 @@
               placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
+          <el-form-item prop="email" label="邮箱" class="regist_form">
+            <el-input
+              class="regist_input"
+              @keyup.enter.native="Register('registerForm')"
+              v-model="registerForm.email"
+              placeholder="请输入邮箱"
+            ></el-input>
+          </el-form-item>
           <el-form-item label="密码" prop="pass" class="regist_form">
             <el-input
               class="regist_input"
@@ -168,6 +176,7 @@ export default {
       height: window.innerHeight,
       // 表单数据
       registerForm: {
+        email: "",
         username: "", // 用户名
         pass: "", // 密码
         checkPass: "", // 检查密码
@@ -181,6 +190,9 @@ export default {
         username: [
           { required: true, message: "账号不能为空", trigger: "blur" },
           { max: 20, message: "账号长度最长20位", trigger: "blur" },
+        ],
+        email: [
+          { required: true, message: "邮箱不能为空", trigger: "blur"},
         ],
         // 密码验证规则
         pass: [
@@ -310,6 +322,7 @@ export default {
           designOpera({
             opera_type: "register", //操作类型
             username: this.registerForm.username, //用户名
+            email: this.registerForm.email,
             password: this.$md5(this.registerForm.pass), //密码md5加密
           }).then((data) => {
             console.log(data);
@@ -388,7 +401,7 @@ export default {
   left: 48%;
   top: 40%;
   width: 350px;
-  height: 350px;
+  height: 400px;
   margin: -190px 0 0 -190px;
   padding: 40px;
   border-radius: 5px; /*圆角边框*/
