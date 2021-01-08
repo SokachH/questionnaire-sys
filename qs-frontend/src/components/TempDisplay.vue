@@ -64,10 +64,6 @@
         :loading="submitLoading"
         >{{ submitText }}</el-button
       >
-
-      <!-- <div class="bottom">
-        <el-link type="info" href="/index">问卷喵&nbsp;提供技术支持</el-link>
-      </div> -->
     </div>
   </div>
 </template>

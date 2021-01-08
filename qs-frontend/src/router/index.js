@@ -12,6 +12,9 @@ import TempDisplay from '@/components/TempDisplay'
 import ThankYou from '@/components/ThankYou'
 // import testLogin from '@/components/testLogin'
 import ResetPass from '@/components/ResetPass'
+import Count from '@/components/Count'
+import Home_bak from '@/components/Home_bak'
+import activeInput from '@/components/activeInput'
 
 Vue.use(Router)
 
@@ -69,6 +72,21 @@ export default new Router({
       path: '/thankyou',
       name: 'ThankYou',
       component: ThankYou
+    },
+    {
+      path: '/testc',
+      name: 'testc',
+      component: Count
+    },
+    {
+      path: '/testh',
+      name: 'testh',
+      component: Home_bak
+    },
+    {
+      path: '/testa',
+      name: 'testa',
+      component: activeInput
     },
   ]
 })

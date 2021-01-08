@@ -191,7 +191,7 @@
             </div>
           </el-tab-pane>
         </el-tabs>
-      </el-col>
+      </el-col> 
     </el-row>
 
     <!--添加问卷弹窗-->

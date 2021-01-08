@@ -13,9 +13,9 @@
         :loading="exportExcelLoading"
         >导出excel</el-button
       >
-      <el-button type="success" size="mini" @click.native="exportPdf"
-        >导出PDF</el-button
-      >
+      <!-- <el-button type="success" size="mini" @click.native="exportPdf"
+        >导出PDF</el-button -->
+      <!-- > -->
     </div>
     <div v-if="detail.length == 0">暂时没有数据</div>
     <el-card class="question" v-for="(item, index) in detail" :key="item.label">
@@ -169,10 +169,10 @@ export default {
         this.answerText2ExcelQeustionId = 0;
       });
     },
-    // 导出pdf
-    exportPdf() {
-      this.$alert("正在开发...", "提示");
-    },
+    // // 导出pdf
+    // exportPdf() {
+    //   this.$alert("正在开发...", "提示");
+    // },
     // 导出excel
     analysisExportExcel() {
       this.exportExcelLoading = true;
