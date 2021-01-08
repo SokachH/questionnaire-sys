@@ -443,6 +443,7 @@
       },
       //删除问卷
       BanWj(na,em,st){
+        console.log('banwjna', na)
         this.$confirm('确定禁止/允许'+na+'发布问卷?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

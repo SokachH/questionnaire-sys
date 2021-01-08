@@ -272,7 +272,7 @@ export default {
             username: this.loginForm.username, //用户名
             password: this.$md5(this.loginForm.password), //密码md5加密
           }).then((data) => {
-            console.log(data);
+            console.log('userlogincode:', data.code);
             if (data.code == 0) {
               //登录成功，并提示
               this.$notify({
@@ -291,7 +291,7 @@ export default {
                   message: "您还未注册账户，请注册",
                   showClose: true,
                 });
-              } else if(data.code==-6) {
+              } else if (data.code == -6) {
                 this.$message({
                   type: "error",
                   message: "您的账户已被禁用",
