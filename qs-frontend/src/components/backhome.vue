@@ -20,8 +20,8 @@
                   @click="wjClick(item.id, index)"
                 >
                   <i class="el-icon-tickets"></i>
-                  <span slot="title" style="display: inline-block; ">
-                      {{ item.title }}
+                  <span slot="title" style="display: inline-block">
+                    {{ item.title }}
                     <span
                       style="color: #f56c6c; font-size: 13px; margin-left: 5px"
                       v-if="item.status == 0"
@@ -97,9 +97,13 @@
                 v-model="mytext"
                 placeholder="请输入要查找的用户名..."
                 :disabled="false"
+                clearable
               />
               <el-button type="primary" class="rightButton" @click="searchuser"
                 ><i>搜索</i></el-button
+              >
+              <el-button class="rightButton" @click="searchreturn"
+                ><i>返回</i></el-button
               >
             </div>
             <el-row :gutter="50">
@@ -217,7 +221,9 @@ export default {
       defaultActive: 1, //当前激活菜单
       activeName: "wjsj", //标签页当前选择项
       wjList: [], //问卷列表
+      allUserList: [], // 所有用户列表
       UserList: [], //用户列表
+      sUser: [], // 搜索的用户列表
       loading: false, //是否显示加载中
       dialogShow: false, //添加问卷弹窗是否显示
       shareDialogShow: false, //分享问卷弹窗是否显示
@@ -478,9 +484,13 @@ export default {
         username: this.mytext,
       }).then((data) => {
         console.log(data);
-        this.UserList = data.data.detail;
+        this.sUser = data.data.detail;
+        this.UserList = this.sUser;
         this.loading = false;
       });
+    },
+    searchreturn() {
+      this.UserList = this.allUserList
     },
     //获取用户列表
     getUsersList() {
@@ -490,6 +500,7 @@ export default {
         username: "admin",
       }).then((data) => {
         console.log(data);
+        this.allUserList = data.data.detail;
         this.UserList = data.data.detail;
         this.loading = false;
       });

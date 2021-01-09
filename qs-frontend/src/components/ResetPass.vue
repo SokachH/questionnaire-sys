@@ -255,7 +255,7 @@ export default {
                 if (data.code == 0) {
                   this.$notify({
                     title: "重置密码成功",
-                    message: "新密码已发送至您的邮箱，请注意查收!",
+                    message: "新密码已发送至您的邮箱，请注意查收!(此功能正在开发中)",
                     type: "success",
                   });
                   this.$router.push({ path: "/login" });
